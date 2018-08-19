@@ -3,9 +3,9 @@
 #set -x
 
 JIRA_URL="http://jira.inatel.br/jira/rest/api/latest/issue/"
-JIRA_AUTH="\"Authorization: Basic c2V1dXNlcm5hbWU6c3Vhc2VuaGE=\""
+JIRA_AUTH="\"Authorization: Basic dXN1YXJpbzpzZW5oYQ==\""
 JIRA_CONTENT="\"Content-Type: application/json\""
-JIRA_ACCEPT="\"Accept': application/json\""
+JIRA_ACCEPT="\"Accept: application/json\""
 
 PROJECT_ID=$1
 ISSUETYPE_ID=$2
@@ -33,7 +33,8 @@ ISSUE_DATA="
 }
 "
 
-CURL_CMD=$(printf "curl -i  -H %s -H %s -H %s %s -d ' %s '" "$JIRA_AUTH" "$JIRA_CONTENT" "$JIRA_ACCEPT" "$JIRA_URL" "$ISSUE_DATA")
+CURL_CMD="curl -i -H ${JIRA_AUTH} -H ${JIRA_CONTENT} -H ${JIRA_ACCEPT} $JIRA_URL -d '${ISSUE_DATA}'"
 
-echo $CURL_CMD
+RESPONSE=$(eval $CURL_CMD)
 
+echo -e "$RESPONSE"
