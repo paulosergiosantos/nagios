@@ -1,0 +1,175 @@
+###############################################################################
+# LOCALHOST.CFG - SAMPLE OBJECT CONFIG FILE FOR MONITORING THIS MACHINE
+#
+#
+# NOTE: This config file is intended to serve as an *extremely* simple 
+#       example of how you can create configuration entries to monitor
+#       the local (Linux) machine.
+#
+###############################################################################
+
+
+
+
+###############################################################################
+###############################################################################
+#
+# HOST DEFINITION
+#
+###############################################################################
+###############################################################################
+
+# Define a host for the telefonica web site
+
+define host{
+        use                     http-site            ; Name of host template to use
+							; This host definition will inherit all variables that are defined
+							; in (or inherited by) the linux-server host template definition.
+        host_name               telefonica 
+        alias                   www.telefonica.com.br
+        display_name            www.telefonica.com.br
+        address                 www.telefonica.com.br
+        }
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               telefonicamobileconnect
+        alias                   telefonica.mobile.connect
+        display_name            telefonica mobile connect
+        address                 br.mobileconnect.telefonica.com
+        }
+
+# Define hosts for the vivo web site
+
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               vivo
+        alias                   www.vivo.com.br 
+        address                 www.vivo.com.br
+        }
+
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               lojaonlinevivo
+        alias                   lojaonline.vivo.com.br
+        address                 lojaonline.vivo.com.br
+        }
+
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               appstorevivo
+        alias                   appstore.vivo.com.br
+        address                 appstore.vivo.com.br
+        }
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               assinevivo
+        alias                   assine.vivo.com.br
+        address                 assine.vivo.com.br
+        }
+
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               meuvivo
+        alias                   meuvivo.vivo.com.br
+        address                 meuvivo.vivo.com.br
+        }
+
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               loginvivo
+        alias                   login.vivo.com.br
+        address                 login.vivo.com.br
+        }
+
+# Define a host for the inatel web site
+
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               inatel
+        alias                   www.inatel.br
+        address                 www.inatel.br
+        }
+
+# Define a host for the jira inatel web site
+
+define host{
+        use                     http-site            ; Name of host template to use
+                                                        ; This host definition will inherit all variables that are defined
+                                                        ; in (or inherited by) the linux-server host template definition.
+        host_name               jirainatel
+        alias                   jira.inatel.br
+        address                 jira.inatel.br
+        }
+
+###############################################################################
+###############################################################################
+#
+# HOST GROUP DEFINITION
+#
+###############################################################################
+###############################################################################
+
+# Define an optional hostgroup for Linux machines
+
+define hostgroup{
+        hostgroup_name  http-sites-telefonica ; The name of the hostgroup
+        alias           HTTP Sites Telefonica; Long name of the group
+        members         telefonica,telefonicamobileconnect ; Comma separated list of hosts that belong to this group
+        }
+
+
+define hostgroup{
+        hostgroup_name  http-sites-vivo ; The name of the hostgroup
+        alias           HTTP Sites Vivo; Long name of the group
+        members         vivo,lojaonlinevivo,appstorevivo,assinevivo,meuvivo,loginvivo ; Comma separated list of hosts that belong to this group
+        }
+
+define hostgroup{
+        hostgroup_name  http-sites-inatel ; The name of the hostgroup
+        alias           HTTP Sites Inatel; Long name of the group
+        members         inatel, jirainatel ; Comma separated list of hosts that belong to this group
+        }
+
+###############################################################################
+###############################################################################
+#
+# SERVICE DEFINITIONS
+#
+###############################################################################
+###############################################################################
+
+define service{
+        use                             local-service         ; Name of service template to use
+        host_name                       telefonica,vivo,jirainatel
+        service_description             HTTP
+        check_command                   check_http
+        }
+
+
+
+# Define a service to check HTTP on the local machine.
+# Disable notifications for this service by default, as not all users may have HTTP enabled.
+
+define service{
+        use                             local-service         ; Name of service template to use
+        host_name                       telefonicamobileconnect,lojaonlinevivo,appstorevivo,assinevivo,meuvivo,loginvivo,inatel
+        service_description             HTTP
+        check_command                   check_tcp!80
+        }
+
